@@ -3,13 +3,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import User, Event
 from .serializer import UserSerializer, EventSerializer
-from .permissions import IsOwnerIsAdminOrReadOnly
+from .permissions import IsOwnerIsAdminOrReadOnly, IsCustomAdmin
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.AllowAny()]
+        return [IsCustomAdmin()]
 
 
 class EventViewSet(viewsets.ModelViewSet):
