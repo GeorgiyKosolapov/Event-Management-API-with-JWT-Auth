@@ -1,0 +1,6 @@
+venv/
+.git/
+__pycache__/
+*.pyc
+# left db for easy testing
+db.sqlite3
